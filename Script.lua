@@ -115,7 +115,7 @@ title.Font = Enum.Font.GothamBold
 local mini = Instance.new("TextButton", mainFrame)
 mini.Size = UDim2.new(0,24,0,24)
 mini.Position = UDim2.new(1,-48,0,2)
-mini.Text = "🎮"
+mini.Text = "−"
 mini.BackgroundColor3 = Color3.fromRGB(60,60,70)
 mini.TextColor3 = Color3.fromRGB(255,255,255)
 mini.TextSize = 18
@@ -128,7 +128,7 @@ createStroke(mini, 1)
 local close = Instance.new("TextButton", mainFrame)
 close.Size = UDim2.new(0,24,0,24)
 close.Position = UDim2.new(1,-22,0,2)
-close.Text = "✕"
+close.Text = "X"
 close.BackgroundColor3 = Color3.fromRGB(220,50,50)
 close.TextColor3 = Color3.fromRGB(255,255,255)
 close.TextSize = 16
@@ -141,7 +141,7 @@ createCorner(close, 8)
 local icon = Instance.new("TextButton", gui)
 icon.Size = UDim2.new(0,48,0,48)
 icon.Position = UDim2.new(0,100,0,100)
-icon.Text = ""
+icon.Text = "🎮"
 icon.Visible = false
 icon.BackgroundColor3 = Color3.fromRGB(40,40,50)
 icon.TextColor3 = Color3.fromRGB(255,255,255)
