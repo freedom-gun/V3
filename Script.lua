@@ -21,20 +21,13 @@ local LocalPlayer = Players.LocalPlayer
 local RunService = game:GetService("RunService")
 local camera = workspace.CurrentCamera
 
-local currentPage = "main"
-local pages = {}
-
--- FIXED: Mob detection lebih sederhana dan reliable
 local function isEnemyMob(model)
     local humanoid = model:FindFirstChildOfClass("Humanoid")
     if not humanoid or humanoid.Health <= 0 then return false end
-    
     local player = Players:GetPlayerFromCharacter(model)
     if player then return false end
-    
     local myChar = LocalPlayer.Character
     if myChar and model == myChar then return false end
-    
     return true
 end
 
@@ -65,59 +58,59 @@ local function createStroke(parent, thickness, color)
     return stroke
 end
 
--- GUI (sama persis, cuma hapus auto tp)
 local gui = Instance.new("ScreenGui", game.CoreGui)
 gui.Name = "Hamimsfy V3"
 gui.ResetOnSpawn = false
 
+pages = {}
 pages.main = Instance.new("Frame", gui)
 local mainFrame = pages.main
-mainFrame.Size = UDim2.new(0,220,0,300)
-mainFrame.Position = UDim2.new(0,100,0,100)
-mainFrame.BackgroundColor3 = Color3.fromRGB(30,27,43)
+mainFrame.Size = UDim2.new(0, 220, 0, 300)
+mainFrame.Position = UDim2.new(0, 100, 0, 100)
+mainFrame.BackgroundColor3 = Color3.fromRGB(30, 27, 43)
 mainFrame.BackgroundTransparency = _G.GuiTransparency * 0.3
 mainFrame.Active = true
 mainFrame.Draggable = true
 createCorner(mainFrame, 18)
 createGradient(mainFrame)
-createStroke(mainFrame, 2, Color3.fromRGB(108,158,254))
+createStroke(mainFrame, 2, Color3.fromRGB(108, 158, 254))
 
 local sunBtn = Instance.new("TextButton", mainFrame)
-sunBtn.Size = UDim2.new(0,24,0,24)
-sunBtn.Position = UDim2.new(0,8,0,8)
+sunBtn.Size = UDim2.new(0, 24, 0, 24)
+sunBtn.Position = UDim2.new(0, 8, 0, 8)
 sunBtn.Text = "☀"
-sunBtn.BackgroundColor3 = Color3.fromRGB(255,200,0)
-sunBtn.TextColor3 = Color3.fromRGB(30,30,30)
+sunBtn.BackgroundColor3 = Color3.fromRGB(255, 200, 0)
+sunBtn.TextColor3 = Color3.fromRGB(30, 30, 30)
 sunBtn.TextSize = 16
 sunBtn.Font = Enum.Font.GothamBold
 sunBtn.BackgroundTransparency = 0.3
 sunBtn.TextTransparency = 0.3
 createCorner(sunBtn, 12)
-createStroke(sunBtn, 2, Color3.fromRGB(255,150,0))
+createStroke(sunBtn, 2, Color3.fromRGB(255, 150, 0))
 
 local scrollFrame = Instance.new("ScrollingFrame", mainFrame)
-scrollFrame.Size = UDim2.new(1,-10,1,-60)
-scrollFrame.Position = UDim2.new(0,5,0,35)
+scrollFrame.Size = UDim2.new(1, -10, 1, -60)
+scrollFrame.Position = UDim2.new(0, 5, 0, 35)
 scrollFrame.BackgroundTransparency = 1
 scrollFrame.ScrollBarThickness = 8
-scrollFrame.ScrollBarImageColor3 = Color3.fromRGB(108,158,254)
-scrollFrame.CanvasSize = UDim2.new(0,0,0,350) -- dikurangi karena hapus auto tp
+scrollFrame.ScrollBarImageColor3 = Color3.fromRGB(108, 158, 254)
+scrollFrame.CanvasSize = UDim2.new(0, 0, 0, 350)
 
 local title = Instance.new("TextLabel", mainFrame)
-title.Size = UDim2.new(1,0,0,30)
+title.Size = UDim2.new(1, 0, 0, 30)
 title.BackgroundTransparency = 1
 title.Text = "Hamimsfy V3"
-title.TextColor3 = Color3.fromRGB(255,255,255)
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.TextTransparency = _G.GuiTransparency * 0.3
 title.TextSize = 16
 title.Font = Enum.Font.GothamBold
 
 local mini = Instance.new("TextButton", mainFrame)
-mini.Size = UDim2.new(0,24,0,24)
-mini.Position = UDim2.new(1,-48,0,2)
+mini.Size = UDim2.new(0, 24, 0, 24)
+mini.Position = UDim2.new(1, -48, 0, 2)
 mini.Text = "−"
-mini.BackgroundColor3 = Color3.fromRGB(60,60,70)
-mini.TextColor3 = Color3.fromRGB(255,255,255)
+mini.BackgroundColor3 = Color3.fromRGB(60, 60, 70)
+mini.TextColor3 = Color3.fromRGB(255, 255, 255)
 mini.TextSize = 18
 mini.Font = Enum.Font.GothamBold
 mini.BackgroundTransparency = 0.3
@@ -126,25 +119,24 @@ createCorner(mini, 8)
 createStroke(mini, 1)
 
 local close = Instance.new("TextButton", mainFrame)
-close.Size = UDim2.new(0,24,0,24)
-close.Position = UDim2.new(1,-22,0,2)
+close.Size = UDim2.new(0, 24, 0, 24)
+close.Position = UDim2.new(1, -22, 0, 2)
 close.Text = "X"
-close.BackgroundColor3 = Color3.fromRGB(220,50,50)
-close.TextColor3 = Color3.fromRGB(255,255,255)
+close.BackgroundColor3 = Color3.fromRGB(220, 50, 50)
+close.TextColor3 = Color3.fromRGB(255, 255, 255)
 close.TextSize = 16
 close.Font = Enum.Font.GothamBold
 close.BackgroundTransparency = 0.3
 close.TextTransparency = 0.3
 createCorner(close, 8)
 
--- Icon mini
 local icon = Instance.new("TextButton", gui)
-icon.Size = UDim2.new(0,48,0,48)
-icon.Position = UDim2.new(0,100,0,100)
+icon.Size = UDim2.new(0, 48, 0, 48)
+icon.Position = UDim2.new(0, 100, 0, 100)
 icon.Text = "🎮"
 icon.Visible = false
-icon.BackgroundColor3 = Color3.fromRGB(40,40,50)
-icon.TextColor3 = Color3.fromRGB(255,255,255)
+icon.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+icon.TextColor3 = Color3.fromRGB(255, 255, 255)
 icon.TextSize = 24
 icon.Font = Enum.Font.GothamBold
 icon.BackgroundTransparency = 0.5
@@ -152,38 +144,36 @@ icon.TextTransparency = 0.5
 icon.Active = true
 icon.Draggable = true
 createCorner(icon, 20)
-createStroke(icon, 2, Color3.fromRGB(108,158,254))
+createStroke(icon, 2, Color3.fromRGB(108, 158, 254))
 
--- Transparency page (sama)
 pages.transparency = Instance.new("Frame", gui)
 local transFrame = pages.transparency
-transFrame.Size = UDim2.new(0,220,0,300)
+transFrame.Size = UDim2.new(0, 220, 0, 300)
 transFrame.Position = mainFrame.Position
-transFrame.BackgroundColor3 = Color3.fromRGB(30,27,43)
+transFrame.BackgroundColor3 = Color3.fromRGB(30, 27, 43)
 transFrame.BackgroundTransparency = _G.GuiTransparency
 transFrame.Visible = false
 transFrame.Active = true
 transFrame.Draggable = true
 createCorner(transFrame, 18)
 createGradient(transFrame)
-createStroke(transFrame, 2, Color3.fromRGB(108,158,254))
+createStroke(transFrame, 2, Color3.fromRGB(108, 158, 254))
 
--- Transparency controls (sama)
 local transTitle = Instance.new("TextLabel", transFrame)
-transTitle.Size = UDim2.new(1,0,0,30)
+transTitle.Size = UDim2.new(1, 0, 0, 30)
 transTitle.BackgroundTransparency = 1
 transTitle.Text = "Transparency"
-transTitle.TextColor3 = Color3.fromRGB(255,255,255)
+transTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
 transTitle.TextTransparency = _G.GuiTransparency
 transTitle.TextSize = 16
 transTitle.Font = Enum.Font.GothamBold
 
 local backBtn = Instance.new("TextButton", transFrame)
-backBtn.Size = UDim2.new(0,24,0,24)
-backBtn.Position = UDim2.new(0,8,0,8)
+backBtn.Size = UDim2.new(0, 24, 0, 24)
+backBtn.Position = UDim2.new(0, 8, 0, 8)
 backBtn.Text = "←"
-backBtn.BackgroundColor3 = Color3.fromRGB(60,60,70)
-backBtn.TextColor3 = Color3.fromRGB(255,255,255)
+backBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 70)
+backBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 backBtn.TextSize = 16
 backBtn.Font = Enum.Font.GothamBold
 backBtn.BackgroundTransparency = 0.5
@@ -192,29 +182,29 @@ createCorner(backBtn, 8)
 createStroke(backBtn, 1.5)
 
 local transScrollFrame = Instance.new("ScrollingFrame", transFrame)
-transScrollFrame.Size = UDim2.new(1,-10,1,-60)
-transScrollFrame.Position = UDim2.new(0,5,0,35)
+transScrollFrame.Size = UDim2.new(1, -10, 1, -60)
+transScrollFrame.Position = UDim2.new(0, 5, 0, 35)
 transScrollFrame.BackgroundTransparency = 1
 transScrollFrame.ScrollBarThickness = 8
-transScrollFrame.ScrollBarImageColor3 = Color3.fromRGB(108,158,254)
-transScrollFrame.CanvasSize = UDim2.new(0,0,0,150)
+transScrollFrame.ScrollBarImageColor3 = Color3.fromRGB(108, 158, 254)
+transScrollFrame.CanvasSize = UDim2.new(0, 0, 0, 150)
 
 local opacityLabel = Instance.new("TextLabel", transScrollFrame)
-opacityLabel.Size = UDim2.new(1,0,0,25)
-opacityLabel.Position = UDim2.new(0,10,0,10)
+opacityLabel.Size = UDim2.new(1, 0, 0, 25)
+opacityLabel.Position = UDim2.new(0, 10, 0, 10)
 opacityLabel.BackgroundTransparency = 1
 opacityLabel.Text = "Opacity: 100%"
-opacityLabel.TextColor3 = Color3.fromRGB(255,255,255)
+opacityLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 opacityLabel.TextTransparency = _G.GuiTransparency
 opacityLabel.TextSize = 16
 opacityLabel.Font = Enum.Font.GothamBold
 
 local opacityUpBtn = Instance.new("TextButton", transScrollFrame)
-opacityUpBtn.Size = UDim2.new(0,85,0,30)
-opacityUpBtn.Position = UDim2.new(0,10,0,40)
+opacityUpBtn.Size = UDim2.new(0, 85, 0, 30)
+opacityUpBtn.Position = UDim2.new(0, 10, 0, 40)
 opacityUpBtn.Text = "+ Up"
-opacityUpBtn.BackgroundColor3 = Color3.fromRGB(50,200,100)
-opacityUpBtn.TextColor3 = Color3.fromRGB(255,255,255)
+opacityUpBtn.BackgroundColor3 = Color3.fromRGB(50, 200, 100)
+opacityUpBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 opacityUpBtn.TextSize = 14
 opacityUpBtn.Font = Enum.Font.GothamBold
 opacityUpBtn.BackgroundTransparency = _G.GuiTransparency * 0.7
@@ -223,11 +213,11 @@ createCorner(opacityUpBtn, 10)
 createStroke(opacityUpBtn, 2)
 
 local opacityDownBtn = Instance.new("TextButton", transScrollFrame)
-opacityDownBtn.Size = UDim2.new(0,85,0,30)
-opacityDownBtn.Position = UDim2.new(0,105,0,40)
+opacityDownBtn.Size = UDim2.new(0, 85, 0, 30)
+opacityDownBtn.Position = UDim2.new(0, 105, 0, 40)
 opacityDownBtn.Text = "- Down"
-opacityDownBtn.BackgroundColor3 = Color3.fromRGB(220,50,50)
-opacityDownBtn.TextColor3 = Color3.fromRGB(255,255,255)
+opacityDownBtn.BackgroundColor3 = Color3.fromRGB(220, 50, 50)
+opacityDownBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 opacityDownBtn.TextSize = 14
 opacityDownBtn.Font = Enum.Font.GothamBold
 opacityDownBtn.BackgroundTransparency = _G.GuiTransparency * 0.7
@@ -235,13 +225,12 @@ opacityDownBtn.TextTransparency = _G.GuiTransparency * 0.7
 createCorner(opacityDownBtn, 10)
 createStroke(opacityDownBtn, 2)
 
--- Helper functions
-local function label(parent, text,y,size)
+local function label(parent, text, y, size)
     local l = Instance.new("TextLabel", parent)
-    l.Size = UDim2.new(0.45,0,0,18)
-    l.Position = UDim2.new(0,10,0,y)
+    l.Size = UDim2.new(0.45, 0, 0, 18)
+    l.Position = UDim2.new(0, 10, 0, y)
     l.BackgroundTransparency = 1
-    l.TextColor3 = Color3.fromRGB(200,200,210)
+    l.TextColor3 = Color3.fromRGB(200, 200, 210)
     l.Text = text
     l.TextTransparency = _G.GuiTransparency * 0.3
     l.TextSize = size or 13
@@ -250,13 +239,13 @@ local function label(parent, text,y,size)
     return l
 end
 
-local function btn_small(parent, text,x,y)
+local function btn_small(parent, text, x, y)
     local b = Instance.new("TextButton", parent)
-    b.Size = UDim2.new(0,85,0,20)
-    b.Position = UDim2.new(0,x,0,y)
+    b.Size = UDim2.new(0, 85, 0, 20)
+    b.Position = UDim2.new(0, x, 0, y)
     b.Text = text
-    b.BackgroundColor3 = Color3.fromRGB(50,50,60)
-    b.TextColor3 = Color3.fromRGB(255,255,255)
+    b.BackgroundColor3 = Color3.fromRGB(50, 50, 60)
+    b.TextColor3 = Color3.fromRGB(255, 255, 255)
     b.BackgroundTransparency = 0.3
     b.TextTransparency = 0.3
     b.TextSize = 11
@@ -268,11 +257,11 @@ end
 
 local function createToggleBtn(parent, text, posY, width)
     local btn = Instance.new("TextButton", parent)
-    btn.Size = UDim2.new(0, width or 85,0,26)
-    btn.Position = UDim2.new(0,10,0,posY)
+    btn.Size = UDim2.new(0, width or 85, 0, 26)
+    btn.Position = UDim2.new(0, 10, 0, posY)
     btn.Text = text
-    btn.BackgroundColor3 = Color3.fromRGB(220,50,50)
-    btn.TextColor3 = Color3.fromRGB(255,255,255)
+    btn.BackgroundColor3 = Color3.fromRGB(220, 50, 50)
+    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
     btn.BackgroundTransparency = 0.3
     btn.TextTransparency = 0.3
     btn.TextSize = 10
@@ -282,34 +271,31 @@ local function createToggleBtn(parent, text, posY, width)
     return btn
 end
 
--- Hitbox controls (sama)
 local bodyToggle = createToggleBtn(scrollFrame, "BODY OFF", 5, 180)
 local bodySizeLabel = label(scrollFrame, "Body: ".._G.BodySize, 35, 13)
-local bodyTransLabel = label(scrollFrame, "Trans: "..string.format("%.1f",_G.BodyTransparency), 35, 13)
-bodyTransLabel.Position = UDim2.new(0.55,0,0,35)
-local bPlus = btn_small(scrollFrame, "Size +",10,58)
-local bMinus = btn_small(scrollFrame, "Size −",100,58)
-local btPlus = btn_small(scrollFrame, "Trans +",10,83)
-local btMinus = btn_small(scrollFrame, "Trans −",100,83)
+local bodyTransLabel = label(scrollFrame, "Trans: "..string.format("%.1f", _G.BodyTransparency), 35, 13)
+bodyTransLabel.Position = UDim2.new(0.55, 0, 0, 35)
+local bPlus = btn_small(scrollFrame, "Size +", 10, 58)
+local bMinus = btn_small(scrollFrame, "Size −", 100, 58)
+local btPlus = btn_small(scrollFrame, "Trans +", 10, 83)
+local btMinus = btn_small(scrollFrame, "Trans −", 100, 83)
 
 local headToggle = createToggleBtn(scrollFrame, "HEAD OFF", 115, 180)
 local headSizeLabel = label(scrollFrame, "Head: ".._G.HeadSize, 145, 13)
-local headTransLabel = label(scrollFrame, "Trans: "..string.format("%.1f",_G.HeadTransparency), 145, 13)
-headTransLabel.Position = UDim2.new(0.55,0,0,145)
-local hPlus = btn_small(scrollFrame, "Size +",10,167)
-local hMinus = btn_small(scrollFrame, "Size −",100,167)
-local htPlus = btn_small(scrollFrame, "Trans +",10,192)
-local htMinus = btn_small(scrollFrame, "Trans −",100,192)
+local headTransLabel = label(scrollFrame, "Trans: "..string.format("%.1f", _G.HeadTransparency), 145, 13)
+headTransLabel.Position = UDim2.new(0.55, 0, 0, 145)
+local hPlus = btn_small(scrollFrame, "Size +", 10, 167)
+local hMinus = btn_small(scrollFrame, "Size −", 100, 167)
+local htPlus = btn_small(scrollFrame, "Trans +", 10, 192)
+local htMinus = btn_small(scrollFrame, "Trans −", 100, 192)
 
--- TOGGLES (posisi disesuaikan, hapus auto tp)
 local aimbotToggle = createToggleBtn(scrollFrame, "AIMBOT OFF", 225, 85)
 local espToggle = createToggleBtn(scrollFrame, "ESP OFF", 225, 85)
-espToggle.Position = UDim2.new(0,100,0,225)
+espToggle.Position = UDim2.new(0, 100, 0, 225)
 
 local noclipToggle = createToggleBtn(scrollFrame, "NOCLIP OFF", 265, 85)
-noclipToggle.Position = UDim2.new(0,10,0,265)
+noclipToggle.Position = UDim2.new(0, 10, 0, 265)
 
--- FIXED: Page navigation
 local function showPage(pageName)
     for name, frame in pairs(pages) do
         frame.Visible = (name == pageName)
@@ -337,10 +323,9 @@ icon.MouseButton1Click:Connect(function()
     showPage("main")
 end)
 
--- FIXED: Transparency controls
 local function updateOpacityLabel()
     local percent = math.floor((1 - _G.GuiTransparency) * 100)
-    opacityLabel.Text = "Opacity: " .. percent .. "%"
+    opacityLabel.Text = "Opacity: "..percent.."%"
 end
 
 local function applyGuiTransparency()
@@ -350,7 +335,7 @@ local function applyGuiTransparency()
     sunBtn.BackgroundTransparency = 0.3
     mini.TextTransparency = _G.GuiTransparency * 0.3
     close.TextTransparency = _G.GuiTransparency * 0.3
-    
+
     transFrame.BackgroundTransparency = _G.GuiTransparency
     transTitle.TextTransparency = _G.GuiTransparency
     opacityLabel.TextTransparency = _G.GuiTransparency
@@ -359,7 +344,7 @@ local function applyGuiTransparency()
     opacityDownBtn.BackgroundTransparency = _G.GuiTransparency * 0.7
     opacityDownBtn.TextTransparency = _G.GuiTransparency * 0.7
     backBtn.TextTransparency = _G.GuiTransparency * 0.5
-    
+
     bodySizeLabel.TextTransparency = _G.GuiTransparency * 0.3
     bodyTransLabel.TextTransparency = _G.GuiTransparency * 0.3
     headSizeLabel.TextTransparency = _G.GuiTransparency * 0.3
@@ -383,7 +368,6 @@ opacityDownBtn.MouseButton1Click:Connect(function()
     updateOpacityLabel()
 end)
 
--- FIXED: NoClip (tetap sama, aman)
 local NoClipConnection, ESPConnection, AimbotConnection
 
 local function setCharacterCollision(character, state)
@@ -398,7 +382,7 @@ end
 noclipToggle.MouseButton1Click:Connect(function()
     _G.NoClipEnabled = not _G.NoClipEnabled
     noclipToggle.Text = _G.NoClipEnabled and "NOCLIP ON" or "NOCLIP OFF"
-    noclipToggle.BackgroundColor3 = _G.NoClipEnabled and Color3.fromRGB(50,200,100) or Color3.fromRGB(220,50,50)
+    noclipToggle.BackgroundColor3 = _G.NoClipEnabled and Color3.fromRGB(50, 200, 100) or Color3.fromRGB(220, 50, 50)
 
     if NoClipConnection then
         NoClipConnection:Disconnect()
@@ -415,7 +399,6 @@ noclipToggle.MouseButton1Click:Connect(function()
     end
 end)
 
--- FIXED ESP (WORKING 100%)
 local function clearAllESP()
     for target, data in pairs(ESPFolder) do
         pcall(function()
@@ -428,11 +411,9 @@ end
 
 local function createBoxESP(target)
     if ESPFolder[target] then return end
-    
     local character = target
     local hrp = character:FindFirstChild("HumanoidRootPart") or character.PrimaryPart
     if not hrp then return end
-    
     local box = Instance.new("BoxHandleAdornment")
     box.Name = "BoxESP"
     box.Parent = hrp
@@ -442,14 +423,12 @@ local function createBoxESP(target)
     box.Transparency = math.clamp(_G.GuiTransparency + 0.3, 0, 1)
     box.AlwaysOnTop = true
     box.ZIndex = 10
-    
     local nameTag = Instance.new("BillboardGui")
     nameTag.Name = "NameESP"
     nameTag.Parent = hrp
     nameTag.Size = UDim2.new(0, 80, 0, 18)
     nameTag.StudsOffset = Vector3.new(0, 4, 0)
     nameTag.AlwaysOnTop = true
-    
     local nameLabel = Instance.new("TextLabel", nameTag)
     nameLabel.Size = UDim2.new(1, 0, 1, 0)
     nameLabel.BackgroundTransparency = 1
@@ -459,29 +438,29 @@ local function createBoxESP(target)
     nameLabel.TextSize = 12
     nameLabel.Font = Enum.Font.GothamBold
     nameLabel.TextStrokeTransparency = 0
-    nameLabel.TextStrokeColor3 = Color3.new(0,0,0)
-    
+    nameLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
     ESPFolder[character] = {box = box, name = nameTag}
 end
 
 espToggle.MouseButton1Click:Connect(function()
     _G.ESPMobsEnabled = not _G.ESPMobsEnabled
     espToggle.Text = _G.ESPMobsEnabled and "ESP ON" or "ESP OFF"
-    espToggle.BackgroundColor3 = _G.ESPMobsEnabled and Color3.fromRGB(50,200,100) or Color3.fromRGB(220,50,50)
-    
+    espToggle.BackgroundColor3 = _G.ESPMobsEnabled and Color3.fromRGB(50, 200, 100) or Color3.fromRGB(220, 50, 50)
     if not _G.ESPMobsEnabled then
         clearAllESP()
     end
 end)
 
--- FIXED ESP Loop (SEKARANG PASTI JALAN)
+local espFrameCounter = 0
 ESPConnection = RunService.Heartbeat:Connect(function()
-    if not _G.ESPMobsEnabled then 
+    if not _G.ESPMobsEnabled then
         if next(ESPFolder) then clearAllESP() end
-        return 
+        return
     end
-    
-    -- Scan models dari workspace children (lebih cepat)
+    espFrameCounter = espFrameCounter + 1
+    if espFrameCounter < 3 then return end
+    espFrameCounter = 0
+
     for _, model in pairs(workspace:GetChildren()) do
         if model:IsA("Model") and isEnemyMob(model) then
             if not ESPFolder[model] then
@@ -489,8 +468,6 @@ ESPConnection = RunService.Heartbeat:Connect(function()
             end
         end
     end
-    
-    -- Cleanup mati/hilang
     for target, _ in pairs(ESPFolder) do
         if not target.Parent or not isEnemyMob(target) then
             pcall(function()
@@ -502,29 +479,22 @@ ESPConnection = RunService.Heartbeat:Connect(function()
     end
 end)
 
--- FIXED AIMBOT (SEKARANG PASTI JALAN)
 aimbotToggle.MouseButton1Click:Connect(function()
     _G.AimbotEnabled = not _G.AimbotEnabled
     aimbotToggle.Text = _G.AimbotEnabled and "AIMBOT ON" or "AIMBOT OFF"
-    aimbotToggle.BackgroundColor3 = _G.AimbotEnabled and Color3.fromRGB(50,200,100) or Color3.fromRGB(220,50,50)
-
+    aimbotToggle.BackgroundColor3 = _G.AimbotEnabled and Color3.fromRGB(50, 200, 100) or Color3.fromRGB(220, 50, 50)
     if AimbotConnection then
         AimbotConnection:Disconnect()
         AimbotConnection = nil
     end
-
     if _G.AimbotEnabled then
         AimbotConnection = RunService.Heartbeat:Connect(function()
             if not _G.AimbotEnabled then return end
-            
             local character = LocalPlayer.Character
             if not character or not character:FindFirstChild("Head") then return end
-            
             local target = nil
             local closestDist = math.huge
             local camCenter = Vector2.new(camera.ViewportSize.X/2, camera.ViewportSize.Y/2)
-            
-            -- Scan dari workspace children (lebih reliable)
             for _, model in pairs(workspace:GetChildren()) do
                 if model:IsA("Model") and isEnemyMob(model) then
                     local targetPart = model:FindFirstChild(_G.AimbotPart) or model:FindFirstChild("Head")
@@ -540,7 +510,6 @@ aimbotToggle.MouseButton1Click:Connect(function()
                     end
                 end
             end
-            
             if target then
                 camera.CFrame = CFrame.lookAt(camera.CFrame.Position, target.Position)
             end
@@ -548,95 +517,88 @@ aimbotToggle.MouseButton1Click:Connect(function()
     end
 end)
 
--- Hitbox controls (sama)
 bodyToggle.MouseButton1Click:Connect(function()
     _G.BodyEnabled = not _G.BodyEnabled
     bodyToggle.Text = _G.BodyEnabled and "BODY ON" or "BODY OFF"
-    bodyToggle.BackgroundColor3 = _G.BodyEnabled and Color3.fromRGB(50,200,100) or Color3.fromRGB(220,50,50)
+    bodyToggle.BackgroundColor3 = _G.BodyEnabled and Color3.fromRGB(50, 200, 100) or Color3.fromRGB(220, 50, 50)
 end)
 
 headToggle.MouseButton1Click:Connect(function()
     _G.HeadEnabled = not _G.HeadEnabled
     headToggle.Text = _G.HeadEnabled and "HEAD ON" or "HEAD OFF"
-    headToggle.BackgroundColor3 = _G.HeadEnabled and Color3.fromRGB(50,200,100) or Color3.fromRGB(220,50,50)
+    headToggle.BackgroundColor3 = _G.HeadEnabled and Color3.fromRGB(50, 200, 100) or Color3.fromRGB(220, 50, 50)
 end)
 
-bPlus.MouseButton1Click:Connect(function() 
-    _G.BodySize = math.clamp(_G.BodySize+5,5,100) 
-    bodySizeLabel.Text = "Body: ".._G.BodySize 
+bPlus.MouseButton1Click:Connect(function()
+    _G.BodySize = math.clamp(_G.BodySize + 5, 5, 100)
+    bodySizeLabel.Text = "Body: ".._G.BodySize
 end)
-bMinus.MouseButton1Click:Connect(function() 
-    _G.BodySize = math.clamp(_G.BodySize-5,5,100) 
-    bodySizeLabel.Text = "Body: ".._G.BodySize 
+bMinus.MouseButton1Click:Connect(function()
+    _G.BodySize = math.clamp(_G.BodySize - 5, 5, 100)
+    bodySizeLabel.Text = "Body: ".._G.BodySize
 end)
-btPlus.MouseButton1Click:Connect(function() 
-    _G.BodyTransparency = math.clamp(_G.BodyTransparency+0.1,0.1,0.9) 
-    bodyTransLabel.Text = "Trans: "..string.format("%.1f",_G.BodyTransparency) 
+btPlus.MouseButton1Click:Connect(function()
+    _G.BodyTransparency = math.clamp(_G.BodyTransparency + 0.1, 0.1, 0.9)
+    bodyTransLabel.Text = "Trans: "..string.format("%.1f", _G.BodyTransparency)
 end)
-btMinus.MouseButton1Click:Connect(function() 
-    _G.BodyTransparency = math.clamp(_G.BodyTransparency-0.1,0.1,0.9) 
-    bodyTransLabel.Text = "Trans: "..string.format("%.1f",_G.BodyTransparency) 
-end)
-
-hPlus.MouseButton1Click:Connect(function() 
-    _G.HeadSize = math.clamp(_G.HeadSize+5,5,100) 
-    headSizeLabel.Text = "Head: ".._G.HeadSize 
-end)
-hMinus.MouseButton1Click:Connect(function() 
-    _G.HeadSize = math.clamp(_G.HeadSize-5,5,100) 
-    headSizeLabel.Text = "Head: ".._G.HeadSize 
-end)
-htPlus.MouseButton1Click:Connect(function() 
-    _G.HeadTransparency = math.clamp(_G.HeadTransparency+0.1,0.1,0.9) 
-    headTransLabel.Text = "Trans: "..string.format("%.1f",_G.HeadTransparency) 
-end)
-htMinus.MouseButton1Click:Connect(function() 
-    _G.HeadTransparency = math.clamp(_G.HeadTransparency-0.1,0.1,0.9) 
-    headTransLabel.Text = "Trans: "..string.format("%.1f",_G.HeadTransparency) 
+btMinus.MouseButton1Click:Connect(function()
+    _G.BodyTransparency = math.clamp(_G.BodyTransparency - 0.1, 0.1, 0.9)
+    bodyTransLabel.Text = "Trans: "..string.format("%.1f", _G.BodyTransparency)
 end)
 
--- Hitbox loop (sama)
+hPlus.MouseButton1Click:Connect(function()
+    _G.HeadSize = math.clamp(_G.HeadSize + 5, 5, 100)
+    headSizeLabel.Text = "Head: ".._G.HeadSize
+end)
+hMinus.MouseButton1Click:Connect(function()
+    _G.HeadSize = math.clamp(_G.HeadSize - 5, 5, 100)
+    headSizeLabel.Text = "Head: ".._G.HeadSize
+end)
+htPlus.MouseButton1Click:Connect(function()
+    _G.HeadTransparency = math.clamp(_G.HeadTransparency + 0.1, 0.1, 0.9)
+    headTransLabel.Text = "Trans: "..string.format("%.1f", _G.HeadTransparency)
+end)
+htMinus.MouseButton1Click:Connect(function()
+    _G.HeadTransparency = math.clamp(_G.HeadTransparency - 0.1, 0.1, 0.9)
+    headTransLabel.Text = "Trans: "..string.format("%.1f", _G.HeadTransparency)
+end)
+
 local function process(v)
     local humanoid = v:FindFirstChildOfClass("Humanoid")
     local player = Players:GetPlayerFromCharacter(v)
-
-    if player then return end  
-
-    if humanoid and humanoid.Health <= 0 then  
+    if player then return end
+    if humanoid and humanoid.Health <= 0 then
         local hrp = v:FindFirstChild("HumanoidRootPart")
         if hrp then
-            hrp.Size = Vector3.new(2,2,1)
+            hrp.Size = Vector3.new(2, 2, 1)
             hrp.Transparency = 1
             hrp.Material = Enum.Material.Plastic
         end
         local head = v:FindFirstChild("Head")
         if head then
-            head.Size = Vector3.new(2,1,1)
+            head.Size = Vector3.new(2, 1, 1)
             head.Transparency = 0
             head.Material = Enum.Material.Plastic
         end
-        return  
-    end  
-
-    local hrp = v:FindFirstChild("HumanoidRootPart")  
-    local head = v:FindFirstChild("Head")  
-
-    if hrp and _G.BodyEnabled then  
-        hrp.Size = Vector3.new(_G.BodySize,_G.BodySize,_G.BodySize)  
+        return
+    end
+    local hrp = v:FindFirstChild("HumanoidRootPart")
+    local head = v:FindFirstChild("Head")
+    if hrp and _G.BodyEnabled then
+        hrp.Size = Vector3.new(_G.BodySize, _G.BodySize, _G.BodySize)
         hrp.Transparency = _G.BodyTransparency
-        hrp.Material = Enum.Material.Neon  
+        hrp.Material = Enum.Material.Neon
     elseif hrp then
-        hrp.Size = Vector3.new(2,2,1)
+        hrp.Size = Vector3.new(2, 2, 1)
         hrp.Transparency = 1
         hrp.Material = Enum.Material.Plastic
-    end  
-
-    if head and _G.HeadEnabled then  
-        head.Size = Vector3.new(_G.HeadSize,_G.HeadSize,_G.HeadSize)  
+    end
+    if head and _G.HeadEnabled then
+        head.Size = Vector3.new(_G.HeadSize, _G.HeadSize, _G.HeadSize)
         head.Transparency = _G.HeadTransparency
-        head.Material = Enum.Material.Neon  
+        head.Material = Enum.Material.Neon
     elseif head then
-        head.Size = Vector3.new(2,1,1)
+        head.Size = Vector3.new(2, 1, 1)
         head.Transparency = 0
         head.Material = Enum.Material.Plastic
     end
@@ -644,14 +606,13 @@ end
 
 task.spawn(function()
     while _G.Running do
-        for _,v in pairs(workspace:GetDescendants()) do
+        for _, v in pairs(workspace:GetDescendants()) do
             if v:IsA("Model") then process(v) end
         end
         task.wait(0.4)
     end
 end)
 
--- Close
 close.MouseButton1Click:Connect(function()
     _G.Running = false
     if NoClipConnection then NoClipConnection:Disconnect() end
@@ -660,6 +621,5 @@ close.MouseButton1Click:Connect(function()
     gui:Destroy()
 end)
 
--- Init
 applyGuiTransparency()
 updateOpacityLabel()
