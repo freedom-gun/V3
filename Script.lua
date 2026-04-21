@@ -615,6 +615,25 @@ end)
 
 close.MouseButton1Click:Connect(function()
     _G.Running = false
+    
+    -- RESET BODY HEAD MOB
+    for _, v in pairs(workspace:GetDescendants()) do
+        if v:IsA("Model") then
+            local hrp = v:FindFirstChild("HumanoidRootPart")
+            local head = v:FindFirstChild("Head")
+            if hrp then
+                hrp.Size = Vector3.new(2, 2, 1)
+                hrp.Transparency = 1
+                hrp.Material = Enum.Material.Plastic
+            end
+            if head then
+                head.Size = Vector3.new(2, 1, 1)
+                head.Transparency = 0
+                head.Material = Enum.Material.Plastic
+            end
+        end
+    end
+    
     if NoClipConnection then NoClipConnection:Disconnect() end
     if ESPConnection then ESPConnection:Disconnect() end
     if AimbotConnection then AimbotConnection:Disconnect() end
