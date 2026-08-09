@@ -21,6 +21,11 @@ local LocalPlayer = Players.LocalPlayer
 local RunService = game:GetService("RunService")
 local camera = workspace.CurrentCamera
 
+-- ==================== CACHE SYSTEM ====================
+local cachedMobs = {}
+local lastCacheUpdate = 0
+local CACHE_INTERVAL = 1.2
+
 local function isEnemyMob(model)
     local humanoid = model:FindFirstChildOfClass("Humanoid")
     if not humanoid or humanoid.Health <= 0 then return false end
@@ -30,6 +35,17 @@ local function isEnemyMob(model)
     if myChar and model == myChar then return false end
     return true
 end
+
+local function updateCache()
+    cachedMobs = {}
+    for _, v in pairs(workspace:GetDescendants()) do
+        if v:IsA("Model") and isEnemyMob(v) then
+            table.insert(cachedMobs, v)
+        end
+    end
+    lastCacheUpdate = tick()
+end
+-- ======================================================
 
 local function createCorner(parent, radius)
     local corner = Instance.new("UICorner")
@@ -604,14 +620,25 @@ local function process(v)
     end
 end
 
+-- ==================== CACHED PROCESS LOOP ====================
 task.spawn(function()
     while _G.Running do
-        for _, v in pairs(workspace:GetDescendants()) do
-            if v:IsA("Model") then process(v) end
+        if tick() - lastCacheUpdate > CACHE_INTERVAL then
+            updateCache()
         end
-        task.wait(0.4)
+
+        for i = #cachedMobs, 1, -1 do
+            local v = cachedMobs[i]
+            if v and v.Parent and isEnemyMob(v) then
+                process(v)
+            else
+                table.remove(cachedMobs, i)
+            end
+        end
+        task.wait(0.35)
     end
 end)
+-- ==============================================================
 
 close.MouseButton1Click:Connect(function()
     _G.Running = false
